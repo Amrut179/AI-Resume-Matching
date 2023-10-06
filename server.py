@@ -4,7 +4,6 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-
 # Define a route to render the HTML form
 @app.route('/')
 def index():
