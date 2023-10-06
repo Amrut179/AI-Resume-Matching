@@ -1,172 +1,389 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
+
     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
+
     <title>Resume Shortlister</title>
+
     <style>
+
         /* Styling for the body */
+
         body {
+
             margin: 0;
+
             padding: 0;
+
             background-color: #f0f0f0; /* Background color of the page */
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
+
             justify-content: center;
+
             min-height: 100vh;
-            font-family: Arial, sans-serif;
-            
-            background-image: url('b1ncf6rbwgycj5rpncoq.webp');
-            /* background-image: url('direct_image_url_here'); */
-            background-size: 30% auto; /* Adjust to 'contain' or custom dimensions as needed */
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: top center; /* Position the image at the top center */
-            margin: 0;
-            padding: 0;
+
             font-family: Arial, sans-serif;
 
+           
+
+            background-image: url('static/MicrosoftTeams-image (4).png');
+
+            /* background-image: url('direct_image_url_here'); */
+
+            background-size: cover;/* Adjust to 'contain' or custom dimensions as needed */
+
+            background-repeat: no-repeat;
+
+            background-attachment: fixed;
+
+            background-position: top center; /* Position the image at the top center */
+
+            margin: 0;
+
+            padding: 0;
+
+            font-family: Arial, sans-serif;
+
+ 
+
         }
+
+ 
 
         /* Styling for the header */
+
         .header {
+
             font-size: 32px;
+
             font-weight: bold;
+
             margin-bottom: 30px;
+
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+            color: #fff;
+
         }
+
+ 
 
         /* Styling for the container */
+
         .container {
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
-            width: 80%; /* Adjust the width as needed */
-            max-width: 800px; /* Limit the maximum width for readability */
+
+            width: 60%; /* Adjust the width as needed */
+
+            height: auto;
+
+            background-color: #f6fbff;
+
+            max-width: 700px; /* Limit the maximum width for readability */
+
             border: 1px solid #ccc;
+
             border-radius: 5px;
+
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
             overflow: hidden;
+
         }
+
+ 
 
         /* Styling for the left side (text input) */
+
         .left-side {
+
             flex: 1;
+
             background-color: #fff; /* Background color for the left side */
+
             padding: 20px;
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center; /* Center horizontally */
+
             justify-content: center; /* Center vertically */
+
             width: 100%; /* 100% width to fit the container */
+
         }
+
+ 
 
         /* Styling for the text input box */
+
         #textInput {
+
             width: 95%; /* Adjust the width */
+
             height: 150px; /* Adjust the height */
+
             padding: 10px;
+
             margin-bottom: 15px;
+
             box-sizing: border-box; /* Include padding in element width */
-            border: 1px solid #3e376e;
+
+            border: 1px solid #f4f3f7;
+
             border-radius: 5px;
+
         }
+
+ 
 
         /* Styling for the right side (file input and submit button) */
+
         .right-side {
+
             flex: 1;
-            background-color: #1f3953; /* Background color for the right side */
+
+            background-color: #f6fbff; /* Background color for the right side */
+
             padding: 20px;
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
+
             color: white; /* Text color for the right side */
+
             width: 100%; /* 100% width to fit the container */
+
+            height: auto;
+
         }
+
+ 
 
         /* Styling for the headers */
+
         .header-right {
+
             font-size: 24px;
+
             font-weight: bold;
+
             margin-bottom: 10px;
+
             text-align: center;
+
+            color:  rgb(90, 121, 212);
+
         }
+
+ 
 
         /* Styling for the file input and submit button */
+
         input[type="file"], button {
+
             width: 95%; /* Adjust the width */
+
             padding: 10px;
+
             box-sizing: border-box; /* Include padding in element width */
+
             border: none;
+
             border-radius: 5px;
+
             cursor: pointer;
+
             font-size: 18px;
+
             text-align: center;
+
             margin-bottom: 15px; /* Add margin to separate elements */
+
         }
+
+ 
 
         /* Style the Choose File button to match the Submit button */
+
         input[type="file"] {
+
             background-color: #062342; /* Background color for the Choose File button */
+
             color: white; /* Text color for the Choose File button */
+
         }
+
+ 
 
         /* Hover effect for buttons */
+
         button:hover, input[type="file"]:hover {
+
             background-color: #272a2e; /* Darker blue on hover */
+
         }
+
+        button {
+
+            font-size: 18px;
+
+            /* Increase the font size */
+
+            padding: 10px 20px;
+
+            /* Increase padding to increase button size */
+
+            border-radius: 100px;
+
+            height: 32px;
+
+            width: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            font-size: 15px;
+
+            background-color: rgb(0, 121, 212);
+
+            color: white;
+
+            border: 1px solid rgb(90, 121, 212);
+
+            outline: blue;
+
+        }
+
+ 
 
         .logo {
+
+            background-color: white;
+
             position: absolute;
-            top: 10px;
-            left: 20px;
+
+            top: 30px;
+
+            left: 30px;
+
         }
+
     </style>
+
 </head>
+
 <body>
+
     <img src="{{url_for('static', filename='logo.png')}}" alt="msci logo" class="logo">
-    <div class="header">Resume Shortlister</div>
+
+    <div class="header">AI Resume Matching Portal</div>
+
     <form class="container" method='post' action='/match' enctype="multipart/form-data">
+
         <div class="left-side">
+
             <!-- Header for job description -->
+
             <div class="header-right">Job Description</div>
+
             <!-- Text input box -->
+
             <textarea name="job_description" id="textInput" rows="4" placeholder="Paste your job description here" required></textarea>
+
         </div>
+
         <div class="right-side">
+
             <!-- Header for Add resume -->
+
             <div class="header-right">Add Resume</div>
+
             <!-- File input box -->
+
             <input type="file" name="resume" id="fileInput" multiple="multiple" accept=".txt,.pdf,.docx,.html" required>
+
             <!-- Submit button -->
+
         </div>
+
         <button type="submit">Get Relevance Score</button>
+
         <!-- <button onclick="openTablePage()">Shortlist the Resume</button> -->
+
     </form>
 
+ 
+
     <script>
+
         // Function to submit data
+
         function submitData() {
+
             const textData = document.getElementById('textInput').value;
+
             const fileInput = document.getElementById('fileInput').files;
 
+ 
+
             // Process the text and file data as needed
+
             // For demonstration purposes, we'll just display the text and selected file names
+
             let message = '';
+
             if (textData.trim() !== '') {
+
                 message += `Job Description:\n${textData}\n\n`;
+
             }
+
+ 
 
             if (fileInput.length > 0) {
+
                 const fileNames = Array.from(fileInput).map((file) => file.name);
+
                 message += `Selected Resumes:\n${fileNames.join(', ')}\n\n`;
+
             }
 
+ 
+
             if (message !== '') {
+
                 alert('Data submitted:\n\n' + message);
+
             } else {
+
                 alert('No data entered or selected.');
+
             }
+
         }
+
     </script>
+
 </body>
+
 </html>
