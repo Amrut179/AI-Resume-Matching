@@ -20,16 +20,17 @@ def match_resume():
     for resume_file in resume_files:
         if resume_file:
             # Save the uploaded file to a specified directory
-            resume_filename = secure_filename(resume_file.filename)
-            resume_file.save(os.path.join('uploads', resume_filename))
+            # resume_filename = secure_filename(resume_file.filename)
+            # resume_file.save(os.path.join('uploads', resume_filename))
 
-            # Process the resume and job description
-            resume_filepath = os.path.join('uploads', resume_filename)
-            data = match(resume_filepath, job_description)
+            # # Process the resume and job description
+            # resume_filepath = os.path.join('uploads', resume_filename)
+            file_data = resume_file.read()
+            data = match(resume_file.filename, file_data, job_description)
             results.append(data)
 
             # Delete the uploaded file after processing
-            os.remove(resume_filepath)
+            # os.remove(resume_filepath)
     if results:
         sorted_data = sorted(results, key=lambda x: x["accuracy"], reverse=True)
         return render_template('result.html', data=sorted_data)

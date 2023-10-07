@@ -1,5 +1,6 @@
 runtime: python39  # Use the Python version you need
 entrypoint: gunicorn -b :$PORT server:app  # Replace "main:app" with your app's entry point
+service: byte-benders-ui
 
 instance_class: F2
 

@@ -1,16 +1,17 @@
 import os
+import io
 import docx2txt
 from bs4 import BeautifulSoup
 import fitz  # PyMuPDF
 
 def extract_text_from_docx(docx_path):
-    text = docx2txt.process(docx_path)
+    text = docx2txt.process(io.BytesIO(docx_path))
     return text
 
 def extract_text_from_pdf(pdf_path):
     text = ''
     links = []
-    doc = fitz.open(pdf_path)
+    doc = fitz.open(stream=pdf_path, filetype="pdf")
 
     for page_num in range(doc.page_count):
         page = doc[page_num]
@@ -25,18 +26,17 @@ def extract_text_from_pdf(pdf_path):
     return " ".join(links)
 
 def extract_text_from_html(html_path):
-    with open(html_path, 'r', encoding='utf-8') as file:
-        soup = BeautifulSoup(file, 'html.parser')
-        text = soup.get_text()
+    soup = BeautifulSoup(html_path, 'html.parser')
+    text = soup.get_text()
     return text
 
-def get_resume_text(resume_path):
+def get_resume_text(file_name, resume_path):
     resume_text = ''
-    if resume_path.endswith('.docx'):
+    if file_name.endswith('.docx'):
         resume_text = extract_text_from_docx(resume_path)
-    elif resume_path.endswith('.pdf'):
+    elif file_name.endswith('.pdf'):
         resume_text = extract_text_from_pdf(resume_path)
-    elif resume_path.endswith('.html'):
+    elif file_name.endswith('.html'):
         resume_text = extract_text_from_html(resume_path)
     else:
         os.remove(resume_path)
