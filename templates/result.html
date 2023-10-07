@@ -171,15 +171,16 @@
                 }
             }
 
- 
+            // Open email prompts for each selected email address
+            selectedRows.forEach(contact => {
+                const { name, email } = contact;
+                const subject = encodeURIComponent("Regarding Your Inquiry"); // Customize the subject
+                const body = encodeURIComponent(`Hello ${name},\n\nI wanted to get in touch regarding...`); // Customize the body
 
-            // Simulate sending email (replace this with your actual email sending code)
-            if (selectedRows.length > 0) {
-                alert('Sending email to selected rows:\n' + JSON.stringify(selectedRows, null, 2));
-            } else {
-                alert('No rows selected.');
-            }
-        }
+                const mailtoURL = `mailto:${email}?subject=${subject}&body=${body}`;
+                window.open(mailtoURL, "_blank");
+            });
+        }    
 
  
 
