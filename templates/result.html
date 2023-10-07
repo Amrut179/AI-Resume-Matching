@@ -107,6 +107,7 @@
                         <th>Resume</th>
                         <th>Email</th>
                         <th>Contact No</th> <!-- New column for Contact No -->
+                        <th>Experience</th>
                         <th class="sortable" onclick="sortTable('accuracy')">Relevance Score</th>
                         <th>Matching Skills</th>
                         <th>Rquired Skills</th>
@@ -119,6 +120,7 @@
                         <td>{{item["name"]}}</td>
                         <td>{{item["email"]}}</td>
                         <td>{{item["phone"]}}</td>
+                        <td>{{item["experience"]}}</td>
                         <td>{{ "{:.2f}%".format(item["accuracy"]) }}</td>
                         <td>{{", ".join(item["common_skills"])}}</td>
                         <td>{{", ".join(item["jd_skills"])}}</td>

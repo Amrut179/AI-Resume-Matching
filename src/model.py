@@ -69,6 +69,11 @@ def expand_synonyms(tokens):
             expanded_tokens.extend(synonym_dict[token])
     return expanded_tokens
 
+def remove_duplicate_words(string):
+    x = string.split()
+    x = sorted(set(x), key = x.index)
+    return ' '.join(x)
+
 # Function to extract candidate information from a resume
 def extract_candidate_info(text):
     candidate_email = ""
@@ -76,6 +81,7 @@ def extract_candidate_info(text):
 
     email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
     phone_pattern = r'\b(?:\+\d{1,2}\s?)?\d{3,4}[-.\s]?\d{3,4}[-.\s]?\d{4}\b'
+    experience_pattern = r'(\d+(\.\d+)?)(?:\s?(\+)?\s?(year|yr|yrs|month|mnth|mo)s?)?'
 
     # Extract email using regex
     email_match = re.search(email_pattern, text)
@@ -87,9 +93,40 @@ def extract_candidate_info(text):
     if phone_match:
         candidate_phone = phone_match.group()
 
+    # Extract all sentences that mention experience
+    doc = nlp(text)
+    experience_sentences = [sent.text for sent in doc.sents if re.search(experience_pattern, sent.text, re.IGNORECASE)]
+    total_experience_years = 0
+    total_experience_months = 0
+
+    # Parse and accumulate years of experience from the extracted sentences
+    for sentence in experience_sentences:
+        matches = re.findall(experience_pattern, sentence, re.IGNORECASE)
+        for match in matches:
+            exp_text, _, plus_sign, unit = match
+            exp_text = exp_text.strip()
+            numeric_part = exp_text.split()[0]
+            try:
+                float_value = float(numeric_part)
+            except ValueError:
+                print("The string does not contain a valid numeric value.")
+            if numeric_part:
+                years = float(numeric_part)
+                if plus_sign:  # Check if the plus sign is present
+                    years += 1  # Add 1 year if there's a plus sign
+            if unit and (unit in ("year", "yr", "yrs")):
+                total_experience_years += years
+            elif unit and (unit in ("month", "mnth", "mo")):
+                total_experience_months += years
+        formatted_experience = (
+            f"{int(total_experience_years)} {'year' if total_experience_years == 1 else 'years'}, "
+            f"{int(total_experience_months)} {'month' if total_experience_months == 1 else 'months'}"
+        )
+
     return {
         "email": candidate_email,
         "phone": candidate_phone,
+        "experience": formatted_experience,
         "accuracy": 0,
         "common_skills": []
     }
@@ -128,7 +165,7 @@ def match_resume_with_job_description(resume_text, job_description):
     jd_tokens = fetch_uniq_skills(jd_tokens)
 
     # try to fetch info like email and phone from resume
-    info = extract_candidate_info(resume_text)
+    info = extract_candidate_info(resume_text.lower())
     common_skills = jd_tokens.intersection(set(resume_tokens))
     accuracy = calculate_weighted_accuracy(jd_tokens, common_skills)
 

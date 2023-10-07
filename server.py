@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
-from src.model import match
 import os
+from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
+from src.model import match
+from src.file_helper import clear_uploads
 
 app = Flask(__name__)
 # Define a route to render the HTML form
@@ -37,7 +38,8 @@ def match_resume():
     
 @app.errorhandler(Exception)
 def internal_server_error(error):
+    clear_uploads()
     return render_template('error.html', error=error)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
