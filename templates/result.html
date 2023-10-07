@@ -171,15 +171,27 @@
                 }
             }
 
-            // Open email prompts for each selected email address
-            selectedRows.forEach(contact => {
-                const { name, email } = contact;
-                const subject = encodeURIComponent("Regarding Your Inquiry"); // Customize the subject
-                const body = encodeURIComponent(`Hello ${name},\n\nI wanted to get in touch regarding...`); // Customize the body
+            const emailList = selectedRows.map(contact => contact.email).join(',');
 
-                const mailtoURL = `mailto:${email}?subject=${subject}&body=${body}`;
-                window.open(mailtoURL, "_blank");
-            });
+            // Open an email prompt with multiple recipients
+            const subject = encodeURIComponent("Regarding Your Resume shortlist for posotion ____"); // Customize the subject
+            const body = encodeURIComponent(`Dear candidate 
+            I wanted to get in touch regarding your resume getting shortlisted for the position _____`); // Customize the body
+            const mailtoURL = `mailto:${emailList}`;
+            window.location.href = mailtoURL;
+
+
+
+
+            // Open email prompts for each selected email address
+            // selectedRows.forEach(contact => {
+            //     const { name, email } = contact;
+            //     const subject = encodeURIComponent("Regarding Your Inquiry"); // Customize the subject
+            //     const body = encodeURIComponent(`Hello ${name},\n\nI wanted to get in touch regarding...`); // Customize the body
+
+            //     const mailtoURL = `mailto:${email}?subject=${subject}&body=${body}`;
+            //     window.open(mailtoURL, "_blank");
+            // });
         }    
 
  
