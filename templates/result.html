@@ -177,7 +177,7 @@
             const subject = encodeURIComponent("Regarding Your Resume shortlist for posotion ____"); // Customize the subject
             const body = encodeURIComponent(`Dear candidate 
             I wanted to get in touch regarding your resume getting shortlisted for the position _____`); // Customize the body
-            const mailtoURL = `mailto:${emailList}`;
+            const mailtoURL = `mailto:${emailList}?subject=${subject}&body=${body}`;
             window.location.href = mailtoURL;
 
 
