@@ -122,6 +122,8 @@ def extract_candidate_info(text):
             f"{int(total_experience_years)} {'year' if total_experience_years == 1 else 'years'}, "
             f"{int(total_experience_months)} {'month' if total_experience_months == 1 else 'months'}"
         )
+        if total_experience_years + total_experience_months == 0:
+            formatted_experience = '-'
 
     return {
         "email": candidate_email,

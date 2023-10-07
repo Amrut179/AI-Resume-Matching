@@ -1,5 +1,5 @@
 runtime: python39  # Use the Python version you need
-entrypoint: gunicorn -b :$PORT server:main  # Replace "main:app" with your app's entry point
+entrypoint: gunicorn -b :$PORT server:app  # Replace "main:app" with your app's entry point
 
 instance_class: F2
 
