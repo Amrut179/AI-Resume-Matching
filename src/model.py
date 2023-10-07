@@ -10,7 +10,7 @@ from src.debugger import print_pipeline
 synonym_dict = {
     "ml": ["machine learning"],
     "analysis": ["analytics"],
-    "ror": ["ruby", "ruby on rails"],
+    "ror": ["ruby", "ruby on rails", "rails", "rail"],
     "ruby": ["ruby", "ruby on rails"],
     "javascript": ["js", "java script", "ecmascript", "client-side scripting"],
     "js": ["js", "java script", "ecmascript", "client-side scripting"],
@@ -50,15 +50,15 @@ def fetch_uniq_skills(jd_tokens):
     job_description = " ".join(jd_tokens)
 
     doc = skills_nlp(job_description)
-    # print_pipeline(doc)
     skills = []
 
     for token in doc.ents:
         if token.label_ == "SKILL":
-            skills.append(token.lemma_.lower())
+            skill = token.lemma_.lower()
+            if skills.count(skill) == 0:
+                skills.append(skill) 
  
-    uniq_skills = set(skills)
-    return uniq_skills
+    return skills
 
 # Function to expand synonyms
 def expand_synonyms(tokens):
@@ -166,7 +166,8 @@ def match_resume_with_job_description(resume_text, job_description):
 
     # try to fetch info like email and phone from resume
     info = extract_candidate_info(resume_text.lower())
-    common_skills = jd_tokens.intersection(set(resume_tokens))
+    common_skills = list(set(filter(lambda x: x in jd_tokens, resume_tokens)))
+
     accuracy = calculate_weighted_accuracy(jd_tokens, common_skills)
 
     info["jd_skills"] = jd_tokens
