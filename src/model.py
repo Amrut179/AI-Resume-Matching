@@ -34,6 +34,9 @@ def process_text(text):
     text = re.sub(r'\s+', ' ', text)
 
     doc = nlp(text)
+    # print("=================== remove extra spaces and lower =========================")
+    # print(text)
+    # print_pipeline(doc)
     tokens = []
 
     for token in doc:
@@ -47,6 +50,7 @@ def fetch_uniq_skills(jd_tokens):
     job_description = " ".join(jd_tokens)
 
     doc = skills_nlp(job_description)
+    # print_pipeline(doc)
     skills = []
 
     for token in doc.ents:
@@ -104,9 +108,11 @@ def calculate_weighted_accuracy(jd_skills, common_skills):
             # Assign a higher weight to skills based on their index in js_skills
             weight = 1.0 / (1 + (jd_skills.index(skill) / 10))  # Inverse of the index
             weighted_accuracy += weight
+            print(f"{skill}: {weight}")
     
     # Normalize the weighted accuracy by dividing by the sum of weights
     total_weight = sum(1.0 / (1 + (jd_skills.index(skill) / 10)) for skill in jd_skills)
+    print(total_weight)
     
     accuracy = (weighted_accuracy / total_weight) * 100 if total_weight > 0 else 0.0
     return accuracy
@@ -129,6 +135,7 @@ def match_resume_with_job_description(resume_text, job_description):
     info["jd_skills"] = jd_tokens
     info["common_skills"] = common_skills
     info["accuracy"] = accuracy
+    info["name"] = ''
 
     return info
 
@@ -137,6 +144,7 @@ def match(resume_path, job_description):
     # job_description = "Bachelor's or Master’s degree in Computer Science, Engineering or related field, or equivalent training, fellowship, or work experience A track record of approximately 8+ years of solving platform-level problems for multiple teams across the stack by building and delivering production quality software systems Excellent communication skills: Clear written and oral communication is important to our ability to operate as a remote team and in building our relationship with our cross-functional partners Strong sense of ownership and customer empathy: Our mission is to create a seamless customer experience; understanding the intricacies of the customer journey and being proactive about doing right by our customers is critical to our success. Strong engineering fundamentals: we value transferable experience writing & debugging code, scaling existing services, and designing/architecting software systems. Proven expertise in their technology of choice. Ideally full-stack development experience using React, GraphQL, Ruby, Golang, ElasticSearch, and PostgresSQL."
     resume_text = get_resume_text(resume_path)
     data = match_resume_with_job_description(resume_text, job_description)
+    data["name"] = resume_path.replace('uploads/','')
 
     print(f"info: {data}")
     return data

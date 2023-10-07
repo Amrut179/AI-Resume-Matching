@@ -96,7 +96,7 @@
 </head>
 
 <body>
-    <img src="{{url_for('static', filename='logo.png')}}" alt="msci logo" class="logo">
+    <a href="/"><img src="{{url_for('static', filename='logo.png')}}" alt="msci logo" class="logo"></a>
     <div class="container">
         <h1>Candidates Scores</h1>
         <div style="overflow: auto;height: 430px;">
@@ -104,10 +104,10 @@
                 <thead>
                     <tr>
                         <th>Select</th>
-                        <th>Name</th>
+                        <th>Resume</th>
                         <th>Email</th>
                         <th>Contact No</th> <!-- New column for Contact No -->
-                        <th class="sortable" onclick="sortTable('accuracy')">Accuracy</th>
+                        <th class="sortable" onclick="sortTable('accuracy')">Relevance Score</th>
                         <th>Matching Skills</th>
                         <th>Rquired Skills</th>
                     </tr>
